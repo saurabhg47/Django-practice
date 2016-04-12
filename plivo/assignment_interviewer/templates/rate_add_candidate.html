@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Rate or Add New Candidate</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "plugins/bootstrap/dist/css/bootstrap.min.css"%}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{% static "plugins/metisMenu/dist/metisMenu.min.css"%}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static "css/sb-admin-2.css"%}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static "plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+    {% if msg %}
+        <div>
+            <span>{{msg}}</span>
+        </div>
+    {% endif %}
+    <div class="btn pull-right"><a href="/rating/logout" class="btn btn-primary">Log Out</a></div>
+    <div class="btn pull-right"><a href="/rating/addcandidate" class="btn btn-primary">Add New Candidate</a></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">List Candidate</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="/rating/gotoratecandidate/">
+                            {% csrf_token %}
+                            <fieldset>
+                                <table class="table">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                          <th>Candidate Name</th>
+                                          <th>Rating</th>
+                                          <th>Rate or Modify Candidate Rating</th>
+                                        </tr>
+                                    </thead>
+                                    {% for candidate in data %}
+                                    <tbody>
+                                        <tr>
+                                            <td>{{candidate.name}} </td>
+                                            {% if candidate.rating%}
+                                                <td>{{candidate.rating}}</td>
+                                                <td><button type="submit" value="{{candidate.id}}" name='candidate_id'>Modify Rating</button></td>
+                                            {% else%}
+                                                <td>{{candidate.rating}}</td>
+                                                <td><button type="submit" value="{{candidate.id}}" name='candidate_id'>Rate Candidate</button></td>
+                                          {%endif%}
+                                        </tr>
+                                    </tbody>
+                                    {% endfor %}
+                                </table>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{% static "plugins/jquery/dist/jquery.min.js"%}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "plugins/bootstrap/dist/js/bootstrap.min.js"%}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static "plugins/metisMenu/dist/metisMenu.min.js"%}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static "js/sb-admin-2.js"%}"></script>
+
+</body>
+
+</html>
